@@ -1,0 +1,5 @@
+3nu8NVkSJRzymGJqdI1SVQ2R2w30SV3xIfX-hLm1pDZM
+
+https://api.us-south.watson-orchestrate.cloud.ibm.com/instances/d07d3b9d-6a2f-42a7-872e-683bed1bd453
+
+orchestrate env add -n aam-instance -u https://api.us-south.watson-orchestrate.cloud.ibm.com/instances/d07d3b9d-6a2f-42a7-872e-683bed1bd453

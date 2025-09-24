@@ -1,0 +1,26 @@
+spec_version: v1
+kind: connection
+app_id: salesforce_key_value
+environments:
+    draft:
+        kind: key_value
+        type: team
+        sso: false
+        server_url: "{SALESFORCE[base_url]}"
+        credentials:
+            token_url: "{SALESFORCE[token_url]}"
+            client_id: "{SALESFORCE[client_id]}"
+            client_secret: "{SALESFORCE[client_secret]}"
+            domain: "{SALESFORCE[domain]}"
+            base_url: "{SALESFORCE[base_url]}"
+    live:
+        kind: key_value
+        type: team
+        sso: false
+        server_url: "{SALESFORCE[base_url]}"
+        credentials:
+            token_url: "{SALESFORCE[token_url]}"
+            client_id: "{SALESFORCE[client_id]}"
+            client_secret: "{SALESFORCE[client_secret]}"
+            domain: "{SALESFORCE[domain]}"
+            base_url: "{SALESFORCE[base_url]}"
