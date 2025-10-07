@@ -1,3 +1,3 @@
-Agents/.venv
-Tools/__pycache__
+/Agents/.venv
+/Tools/__pycache__
 .DS_Store
