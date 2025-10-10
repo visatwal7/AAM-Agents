@@ -5,16 +5,14 @@ from datetime import datetime
 from ibm_watsonx_orchestrate.agent_builder.tools import tool
 
 
-@tool(name="get_toyota_terms_conditions", description="Retrieves Toyota terms and conditions for various models and offers")
-def get_toyota_terms_conditions(
-    slug: Optional[str] = None,
-    offer_type: Optional[str] = None
+@tool(name="get_toyota_offers", description="Retrieves Toyota offers for various models")
+def get_toyota_offers(
+    slug: Optional[str] = None
 ) -> Dict[str, Any]:
     """Retrieves Toyota terms and conditions with filtering options.
     
     Args:
-        slug (str, optional): Specific model to filter by (e.g., 'Prado', 'Land Cruiser')  
-        offer_type(str, optional): Specific type for offer (e.g., 'ramadan')
+        slug (str, optional): Specific model to filter by (e.g., 'Prado', 'Land Cruiser')    
     Returns:
         dict: A dictionary containing:
             - status (str): 'success', 'not_found', or 'error'
@@ -27,7 +25,7 @@ def get_toyota_terms_conditions(
         Exception: For API errors or connection issues
     
     Examples:
-        >>> get_toyota_terms_conditions(slug="Land Cruiser")
+        >>> get_toyota_offers(slug="Land Cruiser")
         {
             "status": "success",
             "count": 1,
@@ -37,7 +35,7 @@ def get_toyota_terms_conditions(
     """
     try:
         # API endpoint configuration
-        base_url = "https://csprod.toyotaqatar.com/graphql/execute.json/ToyotaWebsite/T26-Terms-Conditions;language=en;brand=toyota"
+        base_url = "https://csprod.toyotaqatar.com/graphql/execute.json/ToyotaWebsite/T4-MainSpecialOffers;language=en;brand=toyota;"
         
         # Make API request
         response = requests.get(base_url)
@@ -55,12 +53,13 @@ def get_toyota_terms_conditions(
             }
         
         # Extract terms and conditions data from the response structure
-        terms_data = data['data']['t26Terms_conditionsList']['items']
+        terms_data = data['data']['t4MainspecialoffersList']['items'][0]['availableOffers']
+
+        print(terms_data)
 
         filtered_terms = _apply_filters(
             terms_data, 
-            slug,
-            offer_type
+            slug
         )
         
         return {
@@ -89,19 +88,11 @@ def get_toyota_terms_conditions(
 
 def _apply_filters(
     terms_data: List[Dict], 
-    slug: Optional[str],
-    offer_type: Optional[str]
+    slug: Optional[str]
 ) -> List[Dict]:
     """Apply filters to the terms and conditions list."""
     filtered = terms_data
-    print('offer_type', offer_type)
-    if offer_type and offer_type.lower() == 'ramadan':
-        print('In If')
-        filtered = [t for t in filtered if _matches_ramadan_data(t)]
-    else:
-        print('In Else')
-        filtered = [t for t in filtered if _matches_main_page_data(t)]
-    print(filtered)
+
     if slug:
         filtered = [t for t in filtered if _matches_slug(t, slug)]
     
@@ -109,22 +100,15 @@ def _apply_filters(
 
 def _matches_slug(term: Dict, slug: str) -> bool:
     """Check if term matches slug."""
-
+    print('slug', slug)
     slugData = term.get('slug', '').lower()
-    print('slug', slug.lower(), slugData)
+    print('slug', term, slugData)
     return slug.replace(" ", "-").lower() in slugData
 
-def _matches_main_page_data(term: Dict) -> bool:
-    path = term.get('_path', '').lower()
-    return 'main-page' in path
-
-def _matches_ramadan_data(term: Dict) -> bool:
-    path = term.get('_path', '').lower()
-    return 'ramadan-campaign' in path
 
 # if __name__ == "__main__":
 #     # Test the tool
-#     print("Toyota Terms & Conditions (Urban Cruiser):")
-#     result = get_toyota_terms_conditions(slug="land-cruiser")
+#     print("Toyota Offers (Urban Cruiser):")
+#     result = get_toyota_offers(slug="Urban Cruiser")
 #     print(f"Found {result['count']} terms & conditions entries")
 #     # print(result)

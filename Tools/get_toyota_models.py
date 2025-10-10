@@ -2,17 +2,18 @@ import requests
 from typing import Optional, Dict, List, Any
 from datetime import datetime
 from ibm_watsonx_orchestrate.agent_builder.tools import tool
+import ast
 
 
 @tool(name="get_toyota_models", description="Retrieves Toyota car models and trims with filtering options")
 def get_toyota_models(
-    car_model: Optional[str] = None,
+    car_model: Optional[object] = None,
     category: Optional[str] = None
 ) -> Dict[str, Any]:
     """Retrieves Toyota car models and trims with comprehensive filtering options.
     
     Args:
-        car_model (str): Specific car model to search (e.g., 'RAV4', 'Camry', 'Corolla'). Default: 'RAV4'
+        car_model (object): Specific car model to search (e.g., ['RAV4'], ['Camry', 'Corolla']).
         category (str, optional): Vehicle category (e.g., 'SUV', 'Sedan', 'Hybrid')
     
     Returns:
@@ -26,7 +27,7 @@ def get_toyota_models(
         Exception: For API errors or connection issues
     
     Examples:
-        >>> get_toyota_models(car_model="RAV4", category="SUV", fuel_type="Hybrid")
+        >>> get_toyota_models(car_model=["RAV4"], category="SUV")
         {
             "status": "success",
             "count": 3,
@@ -37,7 +38,10 @@ def get_toyota_models(
     try:
         # API endpoint configuration
         base_url = "https://csprod.toyotaqatar.com/graphql/execute.json/ToyotaWebsite/TrimsEndpoint;language=en;brand=toyota"
-        
+        print('car_model', car_model)
+        if car_model:
+            car_model = ast.literal_eval(car_model)
+
         # Make API request
         response = requests.get(base_url)
         data = response.json()
@@ -55,6 +59,8 @@ def get_toyota_models(
         # Extract vehicle data from the response structure
         # Adjust this path based on actual API response structure
         vehicles_data = data['data']['carFragmentsList']['items']
+
+        print('car_model', car_model)
 
         filtered_models = _apply_filters(
             vehicles_data, 
@@ -88,12 +94,13 @@ def get_toyota_models(
 def _apply_filters(
     vehicles: List[Dict], 
     category: Optional[str],
-    car_model: Optional[str],
+    car_model: Optional[object],
 ) -> List[Dict]:
     """Apply filters to the vehicle list."""
     filtered = vehicles
+    print('carModel', car_model, category)
 
-    if car_model:
+    if car_model and len(car_model) > 0:
         filtered = [v for v in filtered if _matches_car_model(v, car_model)]
 
     # Category filter
@@ -102,10 +109,10 @@ def _apply_filters(
     
     return filtered
 
-def _matches_car_model(vehicle: Dict, car_model: str) -> bool:
+def _matches_car_model(vehicle: Dict, car_model: object) -> bool:
     """Check if vehicle matches carModel."""
     vehicle_name = vehicle.get('carName').lower()
-    return car_model.lower() in vehicle_name
+    return any(vehicle_name in item.lower() for item in car_model)
 
 def _matches_category(vehicle: Dict, category: str) -> bool:
     """Check if vehicle matches category."""
@@ -115,5 +122,5 @@ def _matches_category(vehicle: Dict, category: str) -> bool:
 # if __name__ == "__main__":
 #     # Test the tool
 #     print("Toyota Models (RAV4):")
-#     result = get_toyota_models(category="SUV")
-#     print(f"Found {result['count']} SUV models", result)
+#     result = get_toyota_models(car_model = '["Prado"]')
+#     print(f"Found {result['count']} SUV models")
