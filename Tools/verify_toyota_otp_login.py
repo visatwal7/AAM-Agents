@@ -229,105 +229,105 @@ def _extract_user_id_from_token(token: Optional[str]) -> Optional[str]:
         return None
 
 # Test function to debug the login API
-def test_login_api():
-    """Test the login API with various scenarios."""
-    test_cases = [
-        {
-            "mobile": "+97403012026",
-            "otp": "12345",
-            "otp_start_time": "2025-10-10T05:36:44.860Z",
-            "description": "Valid test credentials"
-        },
-        {
-            "mobile": "+97403012026",
-            "otp": "99999",
-            "otp_start_time": "2025-10-10T05:36:44.860Z",
-            "description": "Invalid OTP"
-        },
-        {
-            "mobile": "+97412345678",
-            "otp": "12345",
-            "otp_start_time": "2025-10-10T05:36:44.860Z",
-            "description": "Unregistered mobile"
-        },
-        {
-            "mobile": "invalid",
-            "otp": "12345",
-            "otp_start_time": "2025-10-10T05:36:44.860Z",
-            "description": "Invalid mobile format"
-        },
-        {
-            "mobile": "+97403012026",
-            "otp": "",
-            "otp_start_time": "2025-10-10T05:36:44.860Z",
-            "description": "Empty OTP"
-        }
-    ]
+# def test_login_api():
+#     """Test the login API with various scenarios."""
+#     test_cases = [
+#         {
+#             "mobile": "+97403012026",
+#             "otp": "12345",
+#             "otp_start_time": "2025-10-10T05:36:44.860Z",
+#             "description": "Valid test credentials"
+#         },
+#         {
+#             "mobile": "+97403012026",
+#             "otp": "99999",
+#             "otp_start_time": "2025-10-10T05:36:44.860Z",
+#             "description": "Invalid OTP"
+#         },
+#         {
+#             "mobile": "+97412345678",
+#             "otp": "12345",
+#             "otp_start_time": "2025-10-10T05:36:44.860Z",
+#             "description": "Unregistered mobile"
+#         },
+#         {
+#             "mobile": "invalid",
+#             "otp": "12345",
+#             "otp_start_time": "2025-10-10T05:36:44.860Z",
+#             "description": "Invalid mobile format"
+#         },
+#         {
+#             "mobile": "+97403012026",
+#             "otp": "",
+#             "otp_start_time": "2025-10-10T05:36:44.860Z",
+#             "description": "Empty OTP"
+#         }
+#     ]
     
-    print("Testing OTP Login API:")
-    print("=" * 70)
+#     print("Testing OTP Login API:")
+#     print("=" * 70)
     
-    for test_case in test_cases:
-        print(f"\nTest Case: {test_case['description']}")
-        print(f"Mobile: '{test_case['mobile']}'")
-        print(f"OTP: '{test_case['otp']}'")
-        print(f"OTP Time: '{test_case['otp_start_time']}'")
+#     for test_case in test_cases:
+#         print(f"\nTest Case: {test_case['description']}")
+#         print(f"Mobile: '{test_case['mobile']}'")
+#         print(f"OTP: '{test_case['otp']}'")
+#         print(f"OTP Time: '{test_case['otp_start_time']}'")
         
-        result = verify_toyota_otp_login(
-            mobile=test_case['mobile'],
-            otp=test_case['otp'],
-            otp_start_time=test_case['otp_start_time']
-        )
+#         result = verify_toyota_otp_login(
+#             mobile=test_case['mobile'],
+#             otp=test_case['otp'],
+#             otp_start_time=test_case['otp_start_time']
+#         )
         
-        print(f"Status: {result['status']}")
-        print(f"Message: {result['message']}")
+#         print(f"Status: {result['status']}")
+#         print(f"Message: {result['message']}")
         
-        if result['status'] == 'success':
-            print("✓ Login successful!")
-            print(f"  Access Token: {result['access_token'][:50]}...")
-            print(f"  Refresh Token: {result['refresh_token'][:50]}...")
-            print(f"  User ID: {result.get('user_id', 'N/A')}")
-            print(f"  Update Data Required: {result['must_update_user_data']}")
-            print(f"  Add Mobile Required: {result['must_add_mobile']}")
-        else:
-            print(f"✗ Login failed: {result.get('error', 'Unknown error')}")
+#         if result['status'] == 'success':
+#             print("✓ Login successful!")
+#             print(f"  Access Token: {result['access_token'][:50]}...")
+#             print(f"  Refresh Token: {result['refresh_token'][:50]}...")
+#             print(f"  User ID: {result.get('user_id', 'N/A')}")
+#             print(f"  Update Data Required: {result['must_update_user_data']}")
+#             print(f"  Add Mobile Required: {result['must_add_mobile']}")
+#         else:
+#             print(f"✗ Login failed: {result.get('error', 'Unknown error')}")
 
-def debug_login_api_payload():
-    """Debug function to show what payload is being sent to the API."""
-    sample_payload = {
-        "mobile": "+97403012026",
-        "otp": "12345",
-        "otp_start_time": "2025-10-10T05:36:44.860Z"
-    }
+# def debug_login_api_payload():
+#     """Debug function to show what payload is being sent to the API."""
+#     sample_payload = {
+#         "mobile": "+97403012026",
+#         "otp": "12345",
+#         "otp_start_time": "2025-10-10T05:36:44.860Z"
+#     }
     
-    print("OTP Login API Details:")
-    print("=" * 50)
-    print(f"URL: POST https://web-backenddev-cont-001-ajath8a5beh9eycz.westeurope-01.azurewebsites.net/api/v1/auth/login/mobile")
-    print(f"Payload: {sample_payload}")
-    print("Expected Response: Access token, refresh token, and user flags")
-    print("=" * 50)
+#     print("OTP Login API Details:")
+#     print("=" * 50)
+#     print(f"URL: POST https://web-backenddev-cont-001-ajath8a5beh9eycz.westeurope-01.azurewebsites.net/api/v1/auth/login/mobile")
+#     print(f"Payload: {sample_payload}")
+#     print("Expected Response: Access token, refresh token, and user flags")
+#     print("=" * 50)
 
-def validate_otp_format(otp: str) -> Dict[str, Any]:
-    """Helper function to validate OTP format separately."""
-    if not otp or not otp.strip():
-        return {
-            "status": "invalid",
-            "message": "OTP code is required",
-            "timestamp": datetime.now().isoformat()
-        }
+# def validate_otp_format(otp: str) -> Dict[str, Any]:
+#     """Helper function to validate OTP format separately."""
+#     if not otp or not otp.strip():
+#         return {
+#             "status": "invalid",
+#             "message": "OTP code is required",
+#             "timestamp": datetime.now().isoformat()
+#         }
     
-    if not re.match(r'^\d{4,8}$', otp.strip()):
-        return {
-            "status": "invalid",
-            "message": "OTP should be 4-8 digits",
-            "timestamp": datetime.now().isoformat()
-        }
+#     if not re.match(r'^\d{4,8}$', otp.strip()):
+#         return {
+#             "status": "invalid",
+#             "message": "OTP should be 4-8 digits",
+#             "timestamp": datetime.now().isoformat()
+#         }
     
-    return {
-        "status": "valid",
-        "message": "OTP format is valid",
-        "timestamp": datetime.now().isoformat()
-    }
+#     return {
+#         "status": "valid",
+#         "message": "OTP format is valid",
+#         "timestamp": datetime.now().isoformat()
+#     }
 
 # # Complete authentication flow function
 # def complete_authentication_flow(mobile: str, otp: str, otp_start_time: str) -> Dict[str, Any]:
