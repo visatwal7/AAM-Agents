@@ -132,141 +132,141 @@ def _validate_mobile_number(mobile: str) -> Optional[Dict]:
     
     return None
 
-# # Test function to debug the OTP API
-# def test_otp_api():
-#     """Test the OTP API with various mobile numbers."""
-#     test_cases = [
-#         {
-#             "mobile": "+97403012026",
-#             "description": "Valid Qatar test number"
-#         },
-#         {
-#             "mobile": "+971501234567",
-#             "description": "Valid UAE number"
-#         },
-#         {
-#             "mobile": "123456789",
-#             "description": "Invalid format - missing country code"
-#         },
-#         {
-#             "mobile": "+974123",
-#             "description": "Invalid Qatar number - too short"
-#         },
-#         {
-#             "mobile": "",
-#             "description": "Empty mobile number"
-#         },
-#         {
-#             "mobile": "+974 1234 5678",
-#             "description": "Valid number with spaces"
-#         }
-#     ]
+# Test function to debug the OTP API
+def test_otp_api():
+    """Test the OTP API with various mobile numbers."""
+    test_cases = [
+        {
+            "mobile": "+97403012026",
+            "description": "Valid Qatar test number"
+        },
+        {
+            "mobile": "+971501234567",
+            "description": "Valid UAE number"
+        },
+        {
+            "mobile": "123456789",
+            "description": "Invalid format - missing country code"
+        },
+        {
+            "mobile": "+974123",
+            "description": "Invalid Qatar number - too short"
+        },
+        {
+            "mobile": "",
+            "description": "Empty mobile number"
+        },
+        {
+            "mobile": "+974 1234 5678",
+            "description": "Valid number with spaces"
+        }
+    ]
     
-#     print("Testing OTP Request API:")
-#     print("=" * 60)
+    print("Testing OTP Request API:")
+    print("=" * 60)
     
-#     for test_case in test_cases:
-#         print(f"\nTest Case: {test_case['description']}")
-#         print(f"Mobile: '{test_case['mobile']}'")
+    for test_case in test_cases:
+        print(f"\nTest Case: {test_case['description']}")
+        print(f"Mobile: '{test_case['mobile']}'")
         
-#         result = request_toyota_otp(mobile=test_case['mobile'])
+        result = request_toyota_otp(mobile=test_case['mobile'])
         
-#         print(f"Status: {result['status']}")
-#         print(f"Message: {result['message']}")
+        print(f"Status: {result['status']}")
+        print(f"Message: {result['message']}")
         
-#         if result['status'] == 'success':
-#             print(f"Server Time: {result.get('server_time', 'N/A')}")
-#         elif result.get('error'):
-#             print(f"Error: {result['error']}")
+        if result['status'] == 'success':
+            print(f"Server Time: {result.get('server_time', 'N/A')}")
+        elif result.get('error'):
+            print(f"Error: {result['error']}")
 
-# def debug_otp_api_payload():
-#     """Debug function to show what payload is being sent to the API."""
-#     sample_payload = {
-#         "mobile": "+97403012026"
-#     }
+def debug_otp_api_payload():
+    """Debug function to show what payload is being sent to the API."""
+    sample_payload = {
+        "mobile": "+97403012026"
+    }
     
-#     print("OTP Request API Details:")
-#     print("=" * 40)
-#     print(f"URL: POST https://web-backenddev-cont-001-ajath8a5beh9eycz.westeurope-01.azurewebsites.net/api/v1/auth/otp/mobile/request")
-#     print(f"Payload: {sample_payload}")
-#     print("Expected Response: {'message': 'Success', 'data': {'time': '...'}, 'responseCode': 1}")
-#     print("=" * 40)
+    print("OTP Request API Details:")
+    print("=" * 40)
+    print(f"URL: POST https://web-backenddev-cont-001-ajath8a5beh9eycz.westeurope-01.azurewebsites.net/api/v1/auth/otp/mobile/request")
+    print(f"Payload: {sample_payload}")
+    print("Expected Response: {'message': 'Success', 'data': {'time': '...'}, 'responseCode': 1}")
+    print("=" * 40)
 
-# def validate_mobile_format(mobile: str) -> Dict[str, Any]:
-#     """Helper function to validate mobile number format separately."""
-#     validation_result = _validate_mobile_number(mobile)
-#     if validation_result:
-#         return validation_result
-#     else:
-#         return {
-#             "status": "valid",
-#             "message": "Mobile number format is valid",
-#             "mobile": mobile,
-#             "timestamp": datetime.now().isoformat()
-#         }
+def validate_mobile_format(mobile: str) -> Dict[str, Any]:
+    """Helper function to validate mobile number format separately."""
+    validation_result = _validate_mobile_number(mobile)
+    if validation_result:
+        return validation_result
+    else:
+        return {
+            "status": "valid",
+            "message": "Mobile number format is valid",
+            "mobile": mobile,
+            "timestamp": datetime.now().isoformat()
+        }
 
-# # Batch OTP request function for testing multiple numbers
-# # def batch_otp_test(mobile_numbers: List[str]) -> List[Dict[str, Any]]:
-# #     """Test OTP requests for multiple mobile numbers."""
-# #     results = []
-# #     print(f"Batch testing {len(mobile_numbers)} mobile numbers:")
-# #     print("=" * 50)
+#Batch OTP request function for testing multiple numbers
+def batch_otp_test(mobile_numbers: List[str]) -> List[Dict[str, Any]]:
+    """Test OTP requests for multiple mobile numbers."""
+    results = []
+    print(f"Batch testing {len(mobile_numbers)} mobile numbers:")
+    print("=" * 50)
     
-# #     for mobile in mobile_numbers:
-# #         print(f"\nTesting: {mobile}")
-# #         result = request_toyota_otp(mobile)
-# #         results.append({"mobile": mobile, **result})
+    for mobile in mobile_numbers:
+        print(f"\nTesting: {mobile}")
+        result = request_toyota_otp(mobile)
+        results.append({"mobile": mobile, **result})
         
-# #         print(f"  Status: {result['status']}")
-# #         print(f"  Message: {result['message']}")
+        print(f"  Status: {result['status']}")
+        print(f"  Message: {result['message']}")
         
-# #         if result['status'] == 'success':
-# #             print(f"  ✓ OTP sent successfully")
-# #         else:
-# #             print(f"  ✗ Failed: {result.get('error', 'Unknown error')}")
+        if result['status'] == 'success':
+            print(f"  ✓ OTP sent successfully")
+        else:
+            print(f"  ✗ Failed: {result.get('error', 'Unknown error')}")
     
-# #     return results
+    return results
 
-# # if __name__ == "__main__":
-# #     # Show API details
-# #     debug_otp_api_payload()
+if __name__ == "__main__":
+    # Show API details
+    debug_otp_api_payload()
     
-# #     print("\n" + "=" * 60)
-# #     print("MOBILE NUMBER VALIDATION TEST")
-# #     print("=" * 60)
+    print("\n" + "=" * 60)
+    print("MOBILE NUMBER VALIDATION TEST")
+    print("=" * 60)
     
-# #     # Test mobile number validation
-# #     test_numbers = ["+97403012026", "+974123", "123456", "+971501234567", ""]
-# #     for number in test_numbers:
-# #         validation = validate_mobile_format(number)
-# #         print(f"Mobile: '{number}' -> {validation['status']}: {validation['message']}")
+    # Test mobile number validation
+    test_numbers = ["+97403012026", "+97412345678", "123456", "+971501234567", ""]
+    for number in test_numbers:
+        validation = validate_mobile_format(number)
+        print(f"Mobile: '{number}' -> {validation['status']}: {validation['message']}")
     
-# #     print("\n" + "=" * 60)
-# #     print("OTP API FUNCTIONAL TEST")
-# #     print("=" * 60)
+    print("\n" + "=" * 60)
+    print("OTP API FUNCTIONAL TEST")
+    print("=" * 60)
     
-# #     # Test the OTP API functionality
-# #     test_otp_api()
+    # Test the OTP API functionality
+    test_otp_api()
     
-# #     print("\n" + "=" * 60)
-# #     print("BATCH TEST WITH SAMPLE NUMBERS")
-# #     print("=" * 60)
+    print("\n" + "=" * 60)
+    print("BATCH TEST WITH SAMPLE NUMBERS")
+    print("=" * 60)
     
-# #     # Batch test with sample numbers
-# #     sample_numbers = [
-# #         "+97403012026",  # Valid test number
-# #         "+97455123456",  # Another Qatar number
-# #         "123456",        # Invalid
-# #         "+971501234567"  # UAE number
-# #     ]
+    # Batch test with sample numbers
+    sample_numbers = [
+        "+97403012026",  # Valid test number
+        "+97455123456",  # Another Qatar number
+        "123456",        # Invalid
+        "+971501234567"  # UAE number
+    ]
     
-# #     batch_otp_test(sample_numbers)
+    batch_otp_test(sample_numbers)
     
-# #     print("\n" + "=" * 60)
-# #     print("USAGE EXAMPLE")
-# #     print("=" * 60)
+    print("\n" + "=" * 60)
+    print("USAGE EXAMPLE")
+    print("=" * 60)
     
-# #     # Example usage
-# #     print("\nExample: Request OTP for test number")
-# #     result = request_toyota_otp("+97403012026")
-# #     print(f"Result: {result}")
+    # Example usage
+    print("\nExample: Request OTP for test number")
+    result = request_toyota_otp("+97413012026")
+    print(f"Result: {result}")
